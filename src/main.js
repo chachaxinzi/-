@@ -15,6 +15,15 @@ import router from './router'
 import '@/icons' // icon
 import '@/permission' // permission control
 
+// 引入一个自定义的指令配置项
+import * as custom from './directives' // 传进来的是一个对象
+// 将对象里面的属性post一个数组
+const results = Object.keys(custom)// results是一个数组
+// 遍历这个数组
+results.forEach((item) => { // 这里的item就是数组中的每一项，也就是对象中的属性名
+  Vue.directive(item, custom[item])// 全局定义自定义指令的第一个参数是指令名称，第二个是配置项
+})
+
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api

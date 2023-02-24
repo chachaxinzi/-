@@ -1,10 +1,18 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
+import store from '@/store'
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
   timeout: 5000// 请求超时器
 })// 创建axios实例
-service.interceptors.request.use()// 请求拦截器
+service.interceptors.request.use(config => {
+  if (store.getters.token) {
+    config.headers.Authorization = `Bearer ${store.getters.token}`
+  }
+  return config// config是请求体
+}, err => {
+  return Promise.reject(new Error(err.message))
+})// 请求拦截器
 service.interceptors.response.use((response) => {
   const { success, message, data } = response.data
   if (success) {
